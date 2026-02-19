@@ -988,7 +988,7 @@ function updateQuote() {
     document.getElementById('qPromoList').innerHTML = activeAll.map(p =>
       `<div class="promo-item-row">
         <span class="promo-item-name">✦ ${p.name}</span>
-        <span class="promo-item-price">${p.price<0?'▼ −'+won(-p.price)+'/월':p.price>0?'+'+won(p.price)+'/월':p.badge||'무료 제공'}</span>
+        <span class="promo-item-price">${p.badge||'무료 제공'}</span>
       </div>`).join('');
   } else { document.getElementById('qPromoSection').style.display = 'none'; }
 

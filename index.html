@@ -207,13 +207,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:var(--
 
 .items-section{margin-bottom:16px;}
 .items-title{font-size:10px;font-weight:700;color:var(--kt-red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;}
-.items-table{width:100%;border-collapse:collapse;}
+.items-table{width:100%;border-collapse:collapse;table-layout:fixed;}
 .items-table thead tr{background:var(--kt-dark);}
-.items-table thead th{padding:8px 11px;text-align:left;font-size:10px;font-weight:600;color:rgba(255,255,255,.75);}
+.items-table thead th{padding:8px 11px;text-align:left;font-size:10px;font-weight:600;color:rgba(255,255,255,.75);white-space:nowrap;overflow:hidden;}
 .items-table thead th.r{text-align:right;}
+.items-table thead th:nth-child(1){width:auto;}
+.items-table thead th:nth-child(2){width:60px;}
+.items-table thead th:nth-child(3){width:48px;}
+.items-table thead th:nth-child(4){width:90px;}
+.items-table thead th:nth-child(5){width:90px;}
 .items-table tbody tr{border-bottom:1px solid var(--kt-border);}
-.items-table tbody td{padding:9px 11px;font-size:12px;color:var(--kt-dark);vertical-align:middle;}
-.items-table tbody td.r{text-align:right;}
+.items-table tbody td{padding:9px 11px;font-size:12px;color:var(--kt-dark);vertical-align:middle;overflow:hidden;}
+.items-table tbody td.r{text-align:right;white-space:nowrap;}
 .item-name{font-weight:600;font-size:12px;}
 .item-desc{font-size:10px;color:var(--kt-gray);margin-top:1px;}
 
@@ -938,10 +943,10 @@ function updateQuote() {
     subtotal += it.total;
     tbody.innerHTML += `<tr>
       <td><div class="item-name">${it.name}</div><div class="item-desc">${it.spec}</div></td>
-      <td style="font-size:11px;color:#6b7280">${it.unit}</td>
-      <td class="r">${it.qty.toLocaleString()}</td>
-      <td class="r">${won(it.unitPrice)}</td>
-      <td class="r" style="font-weight:700">${won(it.total)}</td>
+      <td style="font-size:11px;color:#6b7280;white-space:nowrap">${it.unit}</td>
+      <td class="r" style="white-space:nowrap">${it.qty.toLocaleString()}</td>
+      <td class="r" style="white-space:nowrap">${won(it.unitPrice)}</td>
+      <td class="r" style="font-weight:700;white-space:nowrap">${won(it.total)}</td>
     </tr>`;
   });
 
@@ -959,7 +964,7 @@ function updateQuote() {
     tbody.innerHTML += `<tr>
       <td colspan="4"><div class="item-name" style="color:var(--kt-green)">으랏차차결합할인</div>
       <div class="item-desc">KT 인터넷 결합 할인 (VAT별도)</div></td>
-      <td class="r" style="font-weight:700;color:var(--kt-green)">▼ −${won(-iDisc)}</td>
+      <td class="r" style="font-weight:700;color:var(--kt-green);white-space:nowrap">▼ −${won(-iDisc)}</td>
     </tr>`;
     document.getElementById('sumDiscountRow').style.display = '';
     document.getElementById('sumDiscount').textContent = '▼ −' + won(-iDisc);
@@ -1013,7 +1018,7 @@ async function saveAsImage() {
   try {
     await new Promise(r => setTimeout(r,150));
     const el = document.getElementById('quote-document');
-    const canvas = await html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false});
+    const canvas = await html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false,windowWidth:760,width:el.scrollWidth,height:el.scrollHeight});
     const link = document.createElement('a');
     const store = document.getElementById('storeName').value || '견적서';
     const d = new Date();

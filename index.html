@@ -190,6 +190,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:var(--
 
 /* ── QUOTE DOCUMENT ── */
 #quote-document{width:720px;background:#fff;border-radius:13px;overflow:hidden;box-shadow:0 4px 28px rgba(0,0,0,.1);font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
+#quote-document *{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
 .quote-top-bar{background:var(--kt-red);height:5px;}
 .quote-header{background:var(--kt-dark);padding:22px 32px;display:flex;justify-content:space-between;align-items:center;}
 .quote-logo-img{height:44px;width:auto;object-fit:contain;filter:none;}
@@ -227,16 +228,16 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:var(--
 .promo-section-title::before{content:'★';font-size:10px;}
 .promo-item-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(167,139,250,.2);font-size:12px;}
 .promo-item-row:last-child{border-bottom:none;padding-bottom:0;}
-.promo-item-name{color:var(--kt-dark);font-weight:500;}
-.promo-item-price{color:var(--kt-promo);font-weight:700;}
+.promo-item-name{color:var(--kt-dark);font-weight:500;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
+.promo-item-price{color:var(--kt-red);font-weight:700;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
 
 .summary-section{display:flex;justify-content:flex-end;margin-bottom:16px;}
 .summary-box{width:285px;background:var(--kt-light);border-radius:9px;padding:12px 14px;}
 .sum-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;}
 .sum-row .s-key{color:var(--kt-gray);}
 .sum-row .s-val{font-weight:600;color:var(--kt-dark);}
-.sum-row.green .s-key{color:var(--kt-green);}
-.sum-row.green .s-val{color:var(--kt-green);font-weight:700;}
+.sum-row.green .s-key{color:var(--kt-red);}
+.sum-row.green .s-val{color:var(--kt-red);font-weight:700;}
 .sum-row.purple .s-key{color:var(--kt-promo);}
 .sum-row.purple .s-val{color:var(--kt-promo);font-weight:700;}
 .sum-divider{border:none;border-top:1px solid var(--kt-border);margin:7px 0;}
@@ -962,9 +963,9 @@ function updateQuote() {
     totalDiscount += iDisc;
     // 견적 테이블에 할인 행 추가
     tbody.innerHTML += `<tr>
-      <td colspan="4"><div class="item-name" style="color:var(--kt-green)">으랏차차결합할인</div>
+      <td colspan="4"><div class="item-name" style="color:var(--kt-red)">으랏차차결합할인</div>
       <div class="item-desc">KT 인터넷 결합 할인 (VAT별도)</div></td>
-      <td class="r" style="font-weight:700;color:var(--kt-green);white-space:nowrap">▼ −${won(-iDisc)}</td>
+      <td class="r" style="font-weight:700;color:var(--kt-red);white-space:nowrap">▼ −${won(-iDisc)}</td>
     </tr>`;
     document.getElementById('sumDiscountRow').style.display = '';
     document.getElementById('sumDiscount').textContent = '▼ −' + won(-iDisc);
@@ -978,13 +979,8 @@ function updateQuote() {
   }
 
   // ─ 프로모션 ─
-  const activeFee = getAllPromos().filter(p => selectedPromos.has(p.id) && p.price !== 0);
-  let promoDelta = activeFee.reduce((s,p) => s + p.price, 0);
-  if (promoDelta !== 0) {
-    totalDiscount += promoDelta;
-    document.getElementById('sumPromoRow').style.display = '';
-    document.getElementById('sumPromo').textContent = '▼ −' + won(-promoDelta);
-  } else { document.getElementById('sumPromoRow').style.display = 'none'; }
+  // 프로모션: 합계 금액에 반영하지 않고 표기만
+  document.getElementById('sumPromoRow').style.display = 'none';
 
   const activeAll = getAllPromos().filter(p => selectedPromos.has(p.id));
   if (activeAll.length > 0) {
